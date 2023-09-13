@@ -2,6 +2,7 @@ package io.wispforest.owo.ui.container;
 
 import io.wispforest.owo.ui.core.Component;
 import io.wispforest.owo.ui.core.Sizing;
+import io.wispforest.owo.ui.util.ElementConfigurer;
 import net.minecraft.text.Text;
 
 public final class Containers {
@@ -13,19 +14,35 @@ public final class Containers {
     // ------
 
     public static GridLayout grid(Sizing horizontalSizing, Sizing verticalSizing, int rows, int columns) {
-        return new GridLayout(horizontalSizing, verticalSizing, rows, columns);
+        return new GridLayout(horizontalSizing, verticalSizing, rows, columns, null);
+    }
+
+    public static GridLayout grid(Sizing horizontalSizing, Sizing verticalSizing, int rows, int columns, ElementConfigurer<GridLayout> configurer) {
+        return new GridLayout(horizontalSizing, verticalSizing, rows, columns, configurer);
     }
 
     public static FlowLayout verticalFlow(Sizing horizontalSizing, Sizing verticalSizing) {
-        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.VERTICAL);
+        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.VERTICAL, null);
     }
 
     public static FlowLayout horizontalFlow(Sizing horizontalSizing, Sizing verticalSizing) {
-        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.HORIZONTAL);
+        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.HORIZONTAL, null);
     }
 
     public static FlowLayout ltrTextFlow(Sizing horizontalSizing, Sizing verticalSizing) {
-        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.LTR_TEXT);
+        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.LTR_TEXT, null);
+    }
+
+    public static FlowLayout verticalFlow(Sizing horizontalSizing, Sizing verticalSizing, ElementConfigurer<FlowLayout> configurer) {
+        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.VERTICAL, configurer);
+    }
+
+    public static FlowLayout horizontalFlow(Sizing horizontalSizing, Sizing verticalSizing, ElementConfigurer<FlowLayout> configurer) {
+        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.HORIZONTAL, configurer);
+    }
+
+    public static FlowLayout ltrTextFlow(Sizing horizontalSizing, Sizing verticalSizing, ElementConfigurer<FlowLayout> configurer) {
+        return new FlowLayout(horizontalSizing, verticalSizing, FlowLayout.Algorithm.LTR_TEXT, configurer);
     }
 
     public static StackLayout stack(Sizing horizontalSizing, Sizing verticalSizing) {

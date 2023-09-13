@@ -4,7 +4,9 @@ import io.wispforest.owo.ui.base.BaseParentComponent;
 import io.wispforest.owo.ui.core.*;
 import io.wispforest.owo.ui.parsing.UIModel;
 import io.wispforest.owo.ui.parsing.UIParsing;
+import io.wispforest.owo.ui.util.ElementConfigurer;
 import io.wispforest.owo.ui.util.MountingHelper;
+import io.wispforest.owo.ui.util.Updatable;
 import io.wispforest.owo.util.Observable;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.w3c.dom.Element;
@@ -12,7 +14,7 @@ import org.w3c.dom.Node;
 
 import java.util.*;
 
-public class FlowLayout extends BaseParentComponent {
+public class FlowLayout extends BaseParentComponent implements Updatable {
 
     protected final List<Component> children = new ArrayList<>();
     protected final List<Component> childrenView = Collections.unmodifiableList(this.children);
@@ -20,13 +22,26 @@ public class FlowLayout extends BaseParentComponent {
 
     protected Size contentSize = Size.zero();
     protected Observable<Integer> gap = Observable.of(0);
+    protected ElementConfigurer<FlowLayout> configurer;
 
-    protected FlowLayout(Sizing horizontalSizing, Sizing verticalSizing, Algorithm algorithm) {
+    protected FlowLayout(Sizing horizontalSizing, Sizing verticalSizing, Algorithm algorithm, ElementConfigurer<FlowLayout> configurer) {
         super(horizontalSizing, verticalSizing);
         this.algorithm = algorithm;
 
         this.gap.observe(integer -> this.updateLayout());
+        this.configurer = configurer;
+        update();
     }
+
+    @Override
+    public void update() {
+        if (configurer != null) {
+            children.clear();
+            configurer.configure(this);
+            updateLayout();
+        }
+    }
+
 
     @Override
     protected int determineHorizontalContentSize(Sizing sizing) {

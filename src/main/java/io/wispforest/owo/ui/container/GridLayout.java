@@ -8,6 +8,8 @@ import io.wispforest.owo.ui.core.Sizing;
 import io.wispforest.owo.ui.parsing.UIModel;
 import io.wispforest.owo.ui.parsing.UIModelParsingException;
 import io.wispforest.owo.ui.parsing.UIParsing;
+import io.wispforest.owo.ui.util.ElementConfigurer;
+import io.wispforest.owo.ui.util.Updatable;
 import org.apache.commons.lang3.mutable.MutableInt;
 import org.jetbrains.annotations.Nullable;
 import org.w3c.dom.Element;
@@ -15,23 +17,34 @@ import org.w3c.dom.Node;
 
 import java.util.*;
 
-public class GridLayout extends BaseParentComponent {
+public class GridLayout extends BaseParentComponent implements Updatable {
 
     protected final int rows, columns;
 
-    protected final Component[] children;
+    protected Component[] children;
     protected final List<Component> nonNullChildren = new ArrayList<>();
     protected final List<Component> nonNullChildrenView = Collections.unmodifiableList(this.nonNullChildren);
 
+    protected ElementConfigurer<GridLayout> configurer;
     protected Size contentSize = Size.zero();
 
-    protected GridLayout(Sizing horizontalSizing, Sizing verticalSizing, int rows, int columns) {
+    protected GridLayout(Sizing horizontalSizing, Sizing verticalSizing, int rows, int columns, ElementConfigurer<GridLayout> configurer) {
         super(horizontalSizing, verticalSizing);
 
         this.rows = rows;
         this.columns = columns;
 
+        this.configurer = configurer;
         this.children = new Component[rows * columns];
+        update();
+    }
+
+    @Override
+    public void update() {
+        if (configurer != null) {
+            children = new Component[rows * columns];
+            configurer.configure(this);
+        }
     }
 
     @Override
@@ -193,6 +206,6 @@ public class GridLayout extends BaseParentComponent {
         int rows = UIParsing.parseUnsignedInt(element.getAttributeNode("rows"));
         int columns = UIParsing.parseUnsignedInt(element.getAttributeNode("columns"));
 
-        return new GridLayout(Sizing.content(), Sizing.content(), rows, columns);
+        return new GridLayout(Sizing.content(), Sizing.content(), rows, columns, null);
     }
 }
