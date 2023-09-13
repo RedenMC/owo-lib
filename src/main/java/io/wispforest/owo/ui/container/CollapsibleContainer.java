@@ -40,7 +40,7 @@ public class CollapsibleContainer extends FlowLayout {
     protected final FlowLayout contentLayout;
 
     protected CollapsibleContainer(Sizing horizontalSizing, Sizing verticalSizing, Text title, boolean expanded) {
-        super(horizontalSizing, verticalSizing, Algorithm.VERTICAL);
+        super(horizontalSizing, verticalSizing, Algorithm.VERTICAL, null);
 
         // Title
 

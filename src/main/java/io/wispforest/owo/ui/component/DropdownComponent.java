@@ -28,7 +28,7 @@ public class DropdownComponent extends FlowLayout {
     protected boolean closeWhenNotHovered = false;
 
     protected DropdownComponent(Sizing horizontalSizing) {
-        super(Sizing.content(), Sizing.content(), Algorithm.HORIZONTAL);
+        super(Sizing.content(), Sizing.content(), Algorithm.HORIZONTAL, null);
 
         this.entries = Containers.verticalFlow(horizontalSizing, Sizing.content());
         this.entries.padding(Insets.of(1));

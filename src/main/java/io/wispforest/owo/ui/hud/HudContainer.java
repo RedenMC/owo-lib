@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 public class HudContainer extends FlowLayout {
 
     protected HudContainer(Sizing horizontalSizing, Sizing verticalSizing) {
-        super(horizontalSizing, verticalSizing, Algorithm.VERTICAL);
+        super(horizontalSizing, verticalSizing, Algorithm.VERTICAL, null);
     }
 
     @Override
